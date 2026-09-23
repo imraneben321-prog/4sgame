@@ -5,11 +5,10 @@
 <header><a class="logo" href="#" onclick="home()">4s<span>Game</span></a>
 <nav><a href="#games">Games</a><a href="#categories">Categories</a><a href="#guides">Guides</a></nav></header>
 <main id="home"><section class="hero"><small>🎮 PLAY FREE • NO DOWNLOAD</small><h1>Games worth playing.</h1>
-<p>Classic games, brain teasers and quick challenges — ready instantly.</p><input id="search" placeholder="🔎 Search games..."></section>
-<section id="games"><small>TRENDING NOW</small><h2>Popular Games</h2><div id="gamesGrid" class="games"></div></section>
-<section id="categories"><small>BROWSE</small><h2>Categories</h2><div class="cats">
+<p>Classic games, brain teasers and quick challenges — ready instantly.</p></section>
+<section class="quick"><div class="quick-search"><input id="search" placeholder="🔎 Search games..."></div><div id="categories" class="catbar"><span>Categories</span><div class="cats">
 <button onclick="filter('all',this)" class="active">All</button><button onclick="filter('puzzle',this)">Puzzle</button>
-<button onclick="filter('brain',this)">Brain</button><button onclick="filter('arcade',this)">Arcade</button><button onclick="filter('classic',this)">Classic</button></div></section>
+<button onclick="filter('brain',this)">Brain</button><button onclick="filter('arcade',this)">Arcade</button><button onclick="filter('classic',this)">Classic</button></div></div></section><section id="games"><small>TRENDING NOW</small><h2>Popular Games</h2><div id="gamesGrid" class="games"></div></section>
 <section id="guides"><small>LEARN & PLAY</small><h2>Game Guides</h2><div class="articles">
 <article>🔢 <b>Sudoku tips</b><p>Use rows, columns and 3×3 boxes to place 1–9 without repeats.</p></article>
 <article>🧠 <b>2048 tips</b><p>Keep your largest tile in a corner and merge carefully.</p></article>
