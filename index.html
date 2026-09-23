@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>4sGame - Free Online Games</title>
+  <meta name="description" content="Play free online puzzle, car, arcade and brain games on 4sGame.">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+<header>
+  <div class="logo">4s<span>Game</span></div>
+  <nav>
+    <a href="#games">Games</a>
+    <a href="#categories">Categories</a>
+    <a href="#articles">Articles</a>
+  </nav>
+</header>
+
+<main>
+<section class="hero">
+  <h1>Play Free Online Games</h1>
+  <p>Discover puzzle, car, arcade and brain games.</p>
+  <input type="search" id="search" placeholder="Search for a game...">
+</section>
+
+<section id="categories">
+  <h2>Categories</h2>
+  <div class="categories">
+    <button onclick="filterGames('all')">All</button>
+    <button onclick="filterGames('puzzle')">Puzzle</button>
+    <button onclick="filterGames('cars')">Cars</button>
+    <button onclick="filterGames('arcade')">Arcade</button>
+    <button onclick="filterGames('brain')">Brain</button>
+  </div>
+</section>
+
+<section id="games">
+  <h2>Popular Games</h2>
+  <div id="game-list" class="games"></div>
+</section>
+
+<section id="articles">
+  <h2>Game Guides & Articles</h2>
+  <div class="articles">
+    <article>
+      <h3>How to Play Sudoku</h3>
+      <p>Learn the basic rules and strategies for solving Sudoku.</p>
+      <a href="#">Read Article →</a>
+    </article>
+    <article>
+      <h3>Best Car Games</h3>
+      <p>Discover different types of online car games.</p>
+      <a href="#">Read Article →</a>
+    </article>
+  </div>
+</section>
+</main>
+
+<footer><p>© 2026 4sGame</p></footer>
+<script src="app.js"></script>
+</body>
+</html>
