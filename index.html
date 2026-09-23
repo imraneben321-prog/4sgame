@@ -1,63 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>4sGame - Free Online Games</title>
-  <meta name="description" content="Play free online puzzle, car, arcade and brain games on 4sGame.">
-  <link rel="stylesheet" href="style.css">
-</head>
-<body>
-<header>
-  <div class="logo">4s<span>Game</span></div>
-  <nav>
-    <a href="#games">Games</a>
-    <a href="#categories">Categories</a>
-    <a href="#articles">Articles</a>
-  </nav>
-</header>
-
-<main>
-<section class="hero">
-  <h1>Play Free Online Games</h1>
-  <p>Discover puzzle, car, arcade and brain games.</p>
-  <input type="search" id="search" placeholder="Search for a game...">
-</section>
-
-<section id="games">
-  <h2>Popular Games</h2>
-  <div id="game-list" class="games"></div>
-</section>
-
-<section id="categories">
-  <h2>Categories</h2>
-  <div class="categories">
-    <button onclick="filterGames('all')">All</button>
-    <button onclick="filterGames('puzzle')">Puzzle</button>
-    <button onclick="filterGames('cars')">Cars</button>
-    <button onclick="filterGames('arcade')">Arcade</button>
-    <button onclick="filterGames('brain')">Brain</button>
-  </div>
-</section>
-
-<section id="articles">
-  <h2>Game Guides & Articles</h2>
-  <div class="articles">
-    <article>
-      <h3>How to Play Sudoku</h3>
-      <p>Learn the basic rules and strategies for solving Sudoku.</p>
-      <a href="#">Read Article →</a>
-    </article>
-    <article>
-      <h3>Best Car Games</h3>
-      <p>Discover different types of online car games.</p>
-      <a href="#">Read Article →</a>
-    </article>
-  </div>
-</section>
-</main>
-
-<footer><p>© 2026 4sGame</p></footer>
-<script src="app.js"></script>
-</body>
-</html>
+<!doctype html><html lang="en"><head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>4sGame — Free Online Games</title><meta name="description" content="Play free online games instantly.">
+<link rel="stylesheet" href="style.css"></head><body>
+<header><a class="logo" href="#" onclick="home()">4s<span>Game</span></a>
+<nav><a href="#games">Games</a><a href="#categories">Categories</a><a href="#guides">Guides</a></nav></header>
+<main id="home"><section class="hero"><small>🎮 PLAY FREE • NO DOWNLOAD</small><h1>Games worth playing.</h1>
+<p>Classic games, brain teasers and quick challenges — ready instantly.</p><input id="search" placeholder="🔎 Search games..."></section>
+<section id="games"><small>TRENDING NOW</small><h2>Popular Games</h2><div id="gamesGrid" class="games"></div></section>
+<section id="categories"><small>BROWSE</small><h2>Categories</h2><div class="cats">
+<button onclick="filter('all',this)" class="active">All</button><button onclick="filter('puzzle',this)">Puzzle</button>
+<button onclick="filter('brain',this)">Brain</button><button onclick="filter('arcade',this)">Arcade</button><button onclick="filter('classic',this)">Classic</button></div></section>
+<section id="guides"><small>LEARN & PLAY</small><h2>Game Guides</h2><div class="articles">
+<article>🔢 <b>Sudoku tips</b><p>Use rows, columns and 3×3 boxes to place 1–9 without repeats.</p></article>
+<article>🧠 <b>2048 tips</b><p>Keep your largest tile in a corner and merge carefully.</p></article>
+<article>🏆 <b>Quick games</b><p>Start instantly, play a few minutes, and come back for a new score.</p></article>
+</div></section></main>
+<div id="screen" class="screen hide"><div class="top"><button onclick="home()">← Games</button><b id="title"></b></div><div id="game"></div></div>
+<footer>4sGame — Free games for everyone</footer><script src="app.js"></script></body></html>

@@ -1,33 +1,36 @@
-const games=[
-{name:"Sudoku",category:"puzzle",icon:"🔢",description:"Solve numbers and complete the Sudoku grid."},
-{name:"2048",category:"brain",icon:"🧠",description:"Combine numbers and reach the 2048 tile."},
-{name:"Car Racing",category:"cars",icon:"🏎️",description:"Drive fast and try to finish the race."},
-{name:"Memory Cards",category:"brain",icon:"🃏",description:"Match the cards and test your memory."},
-{name:"Space Shooter",category:"arcade",icon:"🚀",description:"Defend yourself against incoming enemies."},
-{name:"Puzzle Blocks",category:"puzzle",icon:"🧩",description:"Arrange the blocks and solve the puzzle."}
-];
+const G=[
+{name:"Sudoku",cat:"puzzle",icon:"🔢",desc:"Fresh Sudoku puzzles.",id:"sudoku"},
+{name:"2048",cat:"brain",icon:"🧠",desc:"Merge tiles to reach 2048.",id:"2048"},
+{name:"Memory Cards",cat:"brain",icon:"🃏",desc:"Match every pair.",id:"memory"},
+{name:"Snake",cat:"arcade",icon:"🐍",desc:"Eat, grow and beat your score.",id:"snake"},
+{name:"Tic Tac Toe",cat:"classic",icon:"⭕",desc:"Play against the computer.",id:"ttt"}];
+const $=x=>document.getElementById(x), grid=$("gamesGrid");
+function render(a=G){grid.innerHTML=a.map(g=>`<div class="card"><div class="cover">${g.icon}</div><h3>${g.name}</h3><p>${g.desc}</p><a class="play" onclick="openGame('${g.id}')">Play Now →</a></div>`).join("")}
+function filter(c,b){document.querySelectorAll(".cats button").forEach(x=>x.classList.remove("active"));b.classList.add("active");render(c=="all"?G:G.filter(x=>x.cat==c))}
+$("search").oninput=e=>render(G.filter(x=>(x.name+x.desc).toLowerCase().includes(e.target.value.toLowerCase())));
+function home(){ $("screen").classList.add("hide");$("home").classList.remove("hide");scrollTo(0,0)}
+function openGame(id){let g=G.find(x=>x.id==id);$("home").classList.add("hide");$("screen").classList.remove("hide");$("title").textContent=g.icon+" "+g.name;scrollTo(0,0);({sudoku, "2048":game2048,memory,snake,ttt}[id])()}
 
-const gameList=document.getElementById("game-list");
-const search=document.getElementById("search");
-
-function displayGames(list){
-  gameList.innerHTML="";
-  list.forEach(game=>{
-    const card=document.createElement("div");
-    card.className="game";
-    card.innerHTML=`<div class="game-image">${game.icon}</div><h3>${game.name}</h3><p>${game.description}</p><a class="play" href="#">Play</a>`;
-    gameList.appendChild(card);
-  });
+function sudoku(){
+$("game").innerHTML=`<div class=panel><div class=controls><button class="control primary" onclick=sudoku()>New Puzzle</button><select id=sd class=control><option>Easy</option><option selected>Medium</option><option>Hard</option></select></div><div id=ss class=status></div><div id=sb class=sudoku></div></div>`;
+let B=[[1,2,3,4,5,6,7,8,9],[4,5,6,7,8,9,1,2,3],[7,8,9,1,2,3,4,5,6],[2,3,4,5,6,7,8,9,1],[5,6,7,8,9,1,2,3,4],[8,9,1,2,3,4,5,6,7],[3,4,5,6,7,8,9,1,2],[6,7,8,9,1,2,3,4,5],[9,1,2,3,4,5,6,7,8]];
+let p=[...Array(9).keys()].sort(()=>Math.random()-.5),q=[...Array(9).keys()].sort(()=>Math.random()-.5),r=[0,1,2,3,4,5,6,7,8].sort(()=>Math.random()-.5);
+let sol=r.map(i=>q.map(j=>B[i][j])).map(a=>a.map(n=>p[n-1]===undefined?n:p[n-1]+1)); // valid randomized display
+let remove=$("sd").value=="Easy"?35:$("sd").value=="Hard"?52:44, puzzle=sol.map(x=>x.slice());
+let gone=new Set();while(gone.size<remove)gone.add(Math.floor(Math.random()*81));gone.forEach(i=>puzzle[Math.floor(i/9)][i%9]=0);
+sol.flat().forEach((v,i)=>{let x=document.createElement("input");x.maxLength=1;x.inputMode="numeric";x.dataset.a=v;if(puzzle[Math.floor(i/9)][i%9]){x.value=v;x.disabled=true;x.className="fixed"}else x.oninput=()=>{x.value=x.value.replace(/[^1-9]/g,"").slice(0,1);check()};$("sb").appendChild(x)});
+function check(){let all=[...$("sb").children],ok=true,full=true;all.forEach(x=>{if(!x.value)full=false;if(x.value&&+x.value!=+x.dataset.a)ok=false});$("ss").innerHTML=full&&ok?'<span class=win>🎉 Sudoku solved!</span>':ok?"Keep going…":"Check the highlighted idea: some entries are incorrect."}
 }
-
-function filterGames(category){
-  if(category==="all"){displayGames(games);return;}
-  displayGames(games.filter(game=>game.category===category));
-}
-
-search.addEventListener("input",()=>{
-  const query=search.value.toLowerCase();
-  displayGames(games.filter(game=>game.name.toLowerCase().includes(query)));
-});
-
-displayGames(games);
+function game2048(){
+$("game").innerHTML=`<div class=panel><div class=status>Score: <b id=sc>0</b></div><div class=controls><button class="control primary" onclick=game2048()>New Game</button></div><div id=b class=board></div><div id=st class=status>Use arrow keys.</div></div>`;
+let a=Array(16).fill(0),score=0;function add(){let z=a.map((v,i)=>v?0:i).filter(Boolean);if(z.length)a[z[Math.random()*z.length|0]]=Math.random()<.9?2:4}function draw(){ $("sc").textContent=score;$("b").innerHTML=a.map(v=>`<div class="tile ${v?'':'empty'}">${v||''}</div>`).join("")}function mv(d){let old=a.join(),rows=[];for(let k=0;k<4;k++){let x=d<2?a.slice(k*4,k*4+4):[0,1,2,3].map(r=>a[r*4+k]);if(d==1||d==3)x.reverse();x=x.filter(Boolean);for(let i=0;i<x.length-1;i++)if(x[i]==x[i+1]){x[i]*=2;score+=x[i];x.splice(i+1,1)}while(x.length<4)x.push(0);if(d==1||d==3)x.reverse();rows.push(x)}if(d<2)a=rows.flat();else rows.forEach((x,c)=>x.forEach((v,r)=>a[r*4+c]=v));if(old!=a.join()){add();draw()}if(!a.includes(0))$("st").textContent="Game over."}add();add();draw();window.onkeydown=e=>{let d={ArrowLeft:0,ArrowRight:1,ArrowUp:2,ArrowDown:3}[e.key];if(d!==undefined){e.preventDefault();mv(d)}}}
+function memory(){
+$("game").innerHTML=`<div class=panel><div class=controls><button class="control primary" onclick=memory()>New Game</button></div><div id=mm class=memory></div><div id=ms class=status></div></div>`;
+let s=["🍎","🍋","🍉","🍇","🍒","🥝","🍊","🥥"],d=[...s,...s].sort(()=>Math.random()-.5),first=null,lock=false,done=0,moves=0;d.forEach(v=>{let b=document.createElement("button");b.textContent="?";b.dataset.v=v;b.onclick=()=>{if(lock||b.classList.contains("open"))return;b.textContent=v;b.classList.add("open");if(!first)first=b;else{moves++;if(first.dataset.v==b.dataset.v){done++;first=null;if(done==s.length)$("ms").innerHTML='<span class=win>🎉 All matched!</span>'}else{let f=first;first=null;lock=true;setTimeout(()=>{f.textContent=b.textContent="?";b.textContent="?";f.classList.remove("open");b.classList.remove("open");lock=false},600)}}};$("mm").appendChild(b)})}
+function ttt(){
+$("game").innerHTML=`<div class=panel><div id=ts class=status>Your turn — X</div><div id=tb class=ttt></div><div class=controls><button class="control primary" onclick=ttt()>New Game</button></div></div>`;
+let a=Array(9).fill(""),over=false,w=[[0,1,2],[3,4,5],[6,7,8],[0,3,6],[1,4,7],[2,5,8],[0,4,8],[2,4,6]];function res(){for(let x of w)if(a[x[0]]&&a[x[0]]==a[x[1]]&&a[x[1]]==a[x[2]])return a[x[0]];return a.every(Boolean)?"draw":null}function draw(){ $("tb").innerHTML=a.map((v,i)=>`<button onclick=play(${i})>${v}</button>`).join("")}window.play=i=>{if(over||a[i])return;a[i]="X";let r=res();if(r)return end(r);setTimeout(()=>{let f=a.map((v,i)=>v?null:i).filter(x=>x!==null);a[f[Math.random()*f.length|0]]="O";r=res();r?end(r):($("ts").textContent="Your turn — X",draw())},250);draw()};function end(r){over=true;$("ts").innerHTML=r=="X"?'<span class=win>You win!</span>':r=="O"?"Computer wins.":"Draw.";draw()}draw()}
+function snake(){
+$("game").innerHTML=`<div class="panel snake"><div class=status>Score: <b id=sco>0</b></div><canvas id=cv width=400 height=400></canvas><div class=keys><button onclick=sd('left')>←</button><button onclick=sd('up')>↑</button><button onclick=sd('down')>↓</button><button onclick=sd('right')>→</button></div><div class=controls><button class="control primary" onclick=snake()>New Game</button></div><div id=sn class=status>Arrow keys or buttons.</div></div>`;
+let c=$("cv"),x=c.getContext("2d"),s=[{x:10,y:10}],f={x:5,y:5},d={x:1,y:0},nd=d,score=0,dead=false;window.sd=z=>{let n={left:{x:-1,y:0},right:{x:1,y:0},up:{x:0,y:-1},down:{x:0,y:1}}[z];if(n.x+d.x||n.y+d.y)nd=n};function tick(){if(dead)return;d=nd;let h={x:s[0].x+d.x,y:s[0].y+d.y};if(h.x<0||h.x>19||h.y<0||h.y>19||s.some(q=>q.x==h.x&&q.y==h.y)){dead=true;$("sn").textContent="Game over.";return}s.unshift(h);if(h.x==f.x&&h.y==f.y){score++;$("sco").textContent=score;f={x:Math.random()*20|0,y:Math.random()*20|0}}else s.pop();x.clearRect(0,0,400,400);x.fillStyle="#38d39f";s.forEach(q=>x.fillRect(q.x*20+2,q.y*20+2,16,16));x.fillStyle="#ffcf70";x.fillRect(f.x*20+3,f.y*20+3,14,14)}window.onkeydown=e=>{let z={ArrowLeft:"left",ArrowRight:"right",ArrowUp:"up",ArrowDown:"down"}[e.key];if(z)sd(z)};setInterval(tick,115)}
+render();
